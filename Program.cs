@@ -19,7 +19,7 @@ namespace candy_market
 		internal static CandyStorage SetupNewApp()
 		{
 			Console.Title = "Cross Confectioneries Incorporated";
-			Console.BackgroundColor = ConsoleColor.White;
+			Console.BackgroundColor = ConsoleColor.Magenta;
 			Console.ForegroundColor = ConsoleColor.Black;
 
 			var db = new CandyStorage();
