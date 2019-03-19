@@ -5,7 +5,7 @@ namespace candy_market
 {
     public class CandyStorage
     {
-        static List<Candy> _myCandy = new List<Candy>();
+        public List<Candy> _myCandy { get; set; } = new List<Candy>();
 
         internal IList<string> GetCandyTypes()
         {
@@ -16,5 +16,10 @@ namespace candy_market
         {
             throw new NotImplementedException();
         }
+
+        //public void Eat(index)
+        //{
+        //        _myCandy.RemoveAt(index);
+        //}
     }
 }

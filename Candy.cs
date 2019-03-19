@@ -13,7 +13,7 @@ namespace candy_market
             Name = name;
             Flavor = flavor;
             Maker = maker;
-            DateTime Date = DateTime.UtcNow;
+            DateTime Date = DateTime.Now;
         }
     }
 }
