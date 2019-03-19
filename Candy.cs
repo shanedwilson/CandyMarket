@@ -2,7 +2,7 @@
 
 namespace candy_market
 {
-    internal class Candy
+    public class Candy
     {
         public string Name { get; set; }
         public string Flavor { get; set; }

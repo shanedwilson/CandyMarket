@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace candy_market
 {
-    internal class CandyStorage
+    public class CandyStorage
     {
         static List<Candy> _myCandy = new List<Candy>();
 

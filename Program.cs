@@ -60,9 +60,11 @@ namespace candy_market
 		internal static void AddNewCandy(CandyStorage db)
 		{
 			var newCandy = new Candy
-			{
-				Name = "Whatchamacallit"
-			};
+			(
+				"Whatchamacallit",
+                "Chocolate",
+                "Hershey"
+			);
 
 			var savedCandy = db.SaveNewCandy(newCandy);
 			Console.WriteLine($"Now you own the candy {savedCandy.Name}");
@@ -70,7 +72,10 @@ namespace candy_market
 
 		private static void EatCandy(CandyStorage db)
 		{
-			throw new NotImplementedException();
-		}
-	}
+            foreach(var item in db._myCandy)
+            {
+
+            }
+        }
+    }
 }
