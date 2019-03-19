@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace candy_market
+namespace candy_market.candyStorage
 {
     internal class CandyStorage
     {
-        static List<Candy> _myCandy = new List<Candy>();
+        public string Owner { get; set; }
+        public List<Candy> Candies { get; set; } = new List<Candy>();
 
-        internal IList<string> GetCandyTypes()
+        public void addCandy(Candy newCandy)
         {
-            throw new NotImplementedException();
+            Candies.Add(newCandy);
         }
 
-        internal Candy SaveNewCandy(Candy newCandy)
+        public void orderCandy()
         {
-            throw new NotImplementedException();
+            Candies.OrderBy(candy => candy.Date);
         }
     }
 }
