@@ -72,11 +72,10 @@ namespace candy_market
 		}
 
 		private static void EatCandy(CandyStorage db)
-		{
-            foreach(var item in db._myCandy)
-            {
-
-            }
+		{   var candyList = db.Candies;
+            Random random = new Random();
+            int randNum = random.Next(0, candyList.Count);
+            candyList.RemoveAt(randNum);
         }
     }
 }
