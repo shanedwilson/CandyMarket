@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using candy_market.candyStorage;
 
 namespace candy_market
@@ -61,7 +63,7 @@ namespace candy_market
 			{
 				case "1": AddNewCandy(db);
 					break;
-				case "2": EatCandy(db);
+				case "2": EatCandyByFlavor(db);
 					break;
 				default: return true;
 			}
@@ -90,14 +92,41 @@ namespace candy_market
             }
         }
 
-		private static void EatCandy(CandyStorage db)
+		private static void EatCandyByFlavor(CandyStorage db)
 
 		{   var candyList = db.Candies;
+            List<string> flavorList = new List<string>();
+            List<Candy> candyByFlavor = new List<Candy>();
+            var flavorMenu = new View();
+
             Random random = new Random();
             int randNum = random.Next(0, candyList.Count);
-            candyList.RemoveAt(randNum);
-            Console.WriteLine($"You have {candyList.Count} pieces of candy left.");
+
+            foreach(var candy in candyList)
+            {
+                if(flavorList.Contains(candy.Flavor) == false)
+                flavorList.Add(candy.Flavor);
+            }
+
+            foreach (var flavor in flavorList)
+                flavorMenu.AddMenuOption(flavor);
+
+            Console.Write(flavorMenu.GetFullMenu());
+
+            Console.WriteLine();
+            Console.WriteLine("Please select the flavor you would like to eat.");
+            var chosenFlavorNumber = Int32.Parse(Console.ReadLine());
+
+            var filteredCandy = candyList.Where(c => c.Flavor.Contains(flavorList[chosenFlavorNumber -1])).ToList();
+            candyList.Remove(filteredCandy[0]);
+
+            Console.WriteLine(candyList.Count);
             Console.ReadKey();
+
+
+            //candyList.RemoveAt(randNum);
+            //Console.WriteLine($"You have {candyList.Count} pieces of candy left.");
+            //Console.ReadKey();
             var exit = false;
             while (!exit)
             {
