@@ -120,13 +120,13 @@ namespace candy_market
             var filteredCandy = candyList.Where(c => c.Flavor.Contains(flavorList[chosenFlavorNumber -1])).ToList();
             candyList.Remove(filteredCandy[0]);
 
-            Console.WriteLine(candyList.Count);
+            Console.WriteLine("You have these candies left:");
+            foreach(var candy in candyList)
+            {
+                Console.WriteLine(candy.Name);
+            }
             Console.ReadKey();
 
-
-            //candyList.RemoveAt(randNum);
-            //Console.WriteLine($"You have {candyList.Count} pieces of candy left.");
-            //Console.ReadKey();
             var exit = false;
             while (!exit)
             {
