@@ -44,8 +44,9 @@ namespace candy_market
 		{
 			View mainMenu = new View()
 					.AddMenuOption("Did you just get some new candy? Add it here.")
-					.AddMenuOption("Do you want to eat some candy? Take it here.")
-					.AddMenuText("Press Esc to exit.");
+					.AddMenuOption("Do you want to pick some candy to eat by flavor? Take it here.")
+                    .AddMenuOption("Do you want to eat some candy from your collection? Take it here.")
+                    .AddMenuText("Press Esc to exit.");
 			Console.Write(mainMenu.GetFullMenu());
 			var userOption = Console.ReadKey();
 			return userOption;
@@ -65,6 +66,8 @@ namespace candy_market
 					break;
 				case "2": EatCandyByFlavor(db);
 					break;
+                case "3": EatCandy(db);
+                    break;
 				default: return true;
 			}
 			return true;
@@ -122,6 +125,50 @@ namespace candy_market
 
             Console.WriteLine("You have these candies left:");
             foreach(var candy in candyList)
+            {
+                Console.WriteLine(candy.Name);
+            }
+            Console.ReadKey();
+
+            var exit = false;
+            while (!exit)
+            {
+                var userInput = MainMenu();
+                exit = TakeActions(db, userInput);
+            }
+        }
+
+        private static void EatCandy(CandyStorage db)
+
+        {
+            var candyList = db.Candies;
+            List<string> candyByAge = new List<string>();
+            List<Candy> myCandyCollection  = new List<Candy>();
+            var candyMenu = new View();
+
+            Random random = new Random();
+            int randNum = random.Next(0, candyList.Count);
+
+            foreach (var candy in candyList)
+            {
+                if (candyByAge.Contains(candy.Name) == false)
+                    candyByAge.Add(candy.Name);
+            }
+
+            foreach (var name in candyByAge)
+                candyMenu.AddMenuOption(name);
+
+            Console.Write(candyMenu.GetFullMenu());
+
+            Console.WriteLine();
+            Console.WriteLine("Please select the candy you would like to eat.");
+            var chosenNameNumber = Int32.Parse(Console.ReadLine());
+
+            var filteredCandy = candyList.Where(c => c.Name.Contains(candyByAge[chosenNameNumber - 1])).ToList();
+            candyList.Remove(filteredCandy[0]);
+
+            Console.WriteLine("You have these candies left:");
+            foreach (var candy in candyList)
             {
                 Console.WriteLine(candy.Name);
             }
