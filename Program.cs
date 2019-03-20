@@ -81,8 +81,13 @@ namespace candy_market
         }
 
 		private static void EatCandy(CandyStorage db)
-		{
-			throw new NotImplementedException();
-		}
-	}
+
+		{   var candyList = db.Candies;
+            Random random = new Random();
+            int randNum = random.Next(0, candyList.Count);
+            candyList.RemoveAt(randNum);
+            Console.WriteLine(candyList.Count);
+            Console.ReadKey();
+        }
+    }
 }
