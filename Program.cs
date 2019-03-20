@@ -11,6 +11,32 @@ namespace candy_market
 		static void Main(string[] args)
 		{
             var candyOwners = new List<CandyStorage>();
+
+            var shane = new CandyStorage { Owner = "Shane" };
+            var marshal = new CandyStorage { Owner = "Marshal" };
+            var rich = new CandyStorage { Owner = "Rich" };
+
+            candyOwners.Add(shane);
+            candyOwners.Add(marshal);
+            candyOwners.Add(rich);
+
+            Candy snickers = new Candy("Snickers", "Chocolate", "Mars");
+            Candy whatchamacallit = new Candy("Whatchamacallit", "Chocolate", "Hershey");
+            Candy starburst = new Candy("Starburst", "Fruity", "Mars");
+
+            shane.Candies.Add(snickers);
+            shane.Candies.Add(snickers);
+            shane.Candies.Add(starburst);
+            shane.Candies.Add(snickers);
+            marshal.Candies.Add(starburst);
+            marshal.Candies.Add(whatchamacallit);
+            marshal.Candies.Add(whatchamacallit);
+            marshal.Candies.Add(snickers);
+            rich.Candies.Add(starburst);
+            rich.Candies.Add(starburst);
+            rich.Candies.Add(starburst);
+            rich.Candies.Add(snickers);
+
             var db = SetupNewApp();
             candyOwners.Add(db);
 
@@ -48,6 +74,7 @@ namespace candy_market
 			View mainMenu = new View()
 					.AddMenuOption("Did you just get some new candy? Add it here.")
 					.AddMenuOption("Do you want to eat some candy? Take it here.")
+                    .AddMenuOption("Do you want to trade some candy? Trade it here.")
 					.AddMenuText("Press Esc to exit.");
 			Console.Write(mainMenu.GetFullMenu());
 			var userOption = Console.ReadKey();
@@ -100,31 +127,42 @@ namespace candy_market
         internal static void TradeCandy(CandyStorage myStuff, List<CandyStorage> candyOwners)
         {
             var menu = new View();
-            menu.AddMenuOption("Enter a candy owner's name to trade with.");
+            menu.AddMenuText("Enter a candy owner's name to trade with.");
             menu.AddMenuText("Press Esc to exit.");
             Console.Write(menu.GetFullMenu());
             var userOption = Console.ReadLine();
             var otherOwner = candyOwners.Where(candies => candies.Owner == userOption).ToList()[0];
-            writeCandies(otherOwner.Candies);
+            menu.AddMenuText("Select a candy number from the owner's list below.");
+            writeCandies(otherOwner.Candies, menu);
+            Console.Write(menu.GetFullMenu());
             var otherOption = Int32.Parse(Console.ReadLine());
-            writeCandies(myStuff.Candies);
+            var menu2 = new View();
+            menu2.AddMenuText("Select a candy number from your list below.");
+            writeCandies(myStuff.Candies, menu2);
+            Console.Write(menu2.GetFullMenu());
             var myOption = Int32.Parse(Console.ReadLine());
-            Console.WriteLine($"You traded your {myStuff.Candies[myOption - 1]} for {otherOwner.Owner}'s {otherOwner.Candies[otherOption - 1]}.");
+            Console.WriteLine($"You traded your {myStuff.Candies[myOption - 1].Name} for {otherOwner.Owner}'s {otherOwner.Candies[otherOption - 1].Name}.");
             otherOwner.addCandy(myStuff.Candies[myOption - 1]);
             myStuff.addCandy(otherOwner.Candies[otherOption - 1]);
             otherOwner.Candies.RemoveAt(otherOption - 1);
             myStuff.Candies.RemoveAt(myOption - 1);
             myStuff.orderCandy();
             otherOwner.orderCandy();
+            Console.ReadLine();
+            var exit = false;
+            while (!exit)
+            {
+                var userInput = MainMenu();
+                exit = TakeActions(myStuff, userInput, candyOwners);
+            }
         }
 
-        internal static void writeCandies(List<Candy> candies)
+        internal static void writeCandies(List<Candy> candies, View menu)
         {
             var counter = 0;
             foreach(Candy candy in candies)
             {
-                counter++;
-                Console.WriteLine($"{counter}. {candy.Name}, Flavor: {candy.Flavor}, Manufacturer {candy.Maker}, Received on {candy.Date}");
+                menu.AddMenuOption($"{candy.Name}, Flavor: {candy.Flavor}, Manufacturer {candy.Maker}, Received on {candy.Date}");
             }
         }
 
