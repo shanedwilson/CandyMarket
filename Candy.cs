@@ -7,6 +7,7 @@ namespace candy_market
         public string Name { get; set; }
         public string Flavor { get; set; }
         public string Maker { get; set; }
+        public DateTime Date { get; set; }
 
         public Candy(string name, string flavor, string maker)
         {
