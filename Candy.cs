@@ -14,7 +14,7 @@ namespace candy_market
             Name = name;
             Flavor = flavor;
             Maker = maker;
-            DateTime Date = DateTime.Now;
+            Date = DateTime.Now;
         }
     }
 }
