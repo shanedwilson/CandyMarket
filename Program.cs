@@ -96,8 +96,14 @@ namespace candy_market
             Random random = new Random();
             int randNum = random.Next(0, candyList.Count);
             candyList.RemoveAt(randNum);
-            Console.WriteLine(candyList.Count);
+            Console.WriteLine($"You have {candyList.Count} pieces of candy left.");
             Console.ReadKey();
+            var exit = false;
+            while (!exit)
+            {
+                var userInput = MainMenu();
+                exit = TakeActions(db, userInput);
+            }
         }
     }
 }
