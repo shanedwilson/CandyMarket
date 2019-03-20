@@ -25,11 +25,22 @@ namespace candy_market
 		internal static CandyStorage SetupNewApp()
 		{
 			Console.Title = "Cross Confectioneries Incorporated";
-			Console.BackgroundColor = ConsoleColor.Magenta;
+			Console.BackgroundColor = ConsoleColor.White;
 			Console.ForegroundColor = ConsoleColor.Black;
+            
+            Candy snickers = new Candy("Snickers", "Chocolate", "Mars");
+            Candy whatchamacallit = new Candy("Whatchamacallit", "Chocolate", "Hershey");
+            Candy starburst = new Candy("Starburst", "Fruity", "Mars");
 
-			var db = new CandyStorage();
-			return db;
+            var db = new CandyStorage();
+            db.Candies.Add(snickers);
+            db.Candies.Add(snickers);
+            db.Candies.Add(whatchamacallit);
+            db.Candies.Add(snickers);
+            db.Candies.Add(starburst);
+            db.Candies.Add(whatchamacallit);
+
+            return db;
 		}
 
 		internal static ConsoleKeyInfo MainMenu()
@@ -53,7 +64,7 @@ namespace candy_market
 			var selection = userInput.KeyChar.ToString();
 			switch (selection)
 			{
-				case "1": AddNewCandy(db);
+				case "1": AddNewCandy(db, candyOwners);
 					break;
 				case "2": EatCandy(db);
 					break;
@@ -64,17 +75,26 @@ namespace candy_market
 			return true;
 		}
 
-		internal static void AddNewCandy(CandyStorage db)
+		internal static void AddNewCandy(CandyStorage db, List<CandyStorage> candyOwners)
 		{
-            var newCandy = new Candy("Whatchamacallit", "Ass", "Hershey?");
-  
+            Console.WriteLine("Might you know the name of the candy you wish to add?");
+            var candyName = Console.ReadLine().ToString();
+            Console.WriteLine("And might you know the manufacturer's name of the candy you wish to add?");
+            var candyManufacturer = Console.ReadLine().ToString();
+            Console.WriteLine("And might you know the flavor profile of the candy you wish to add?");
+            var candyFlavor = Console.ReadLine().ToString();
+
+            var newCandy = new Candy(candyName, candyManufacturer, candyFlavor);
+
 			db.addCandy(newCandy);
 			Console.WriteLine($"Now you own the candy {newCandy.Name}");
-		}
-
-		private static void EatCandy(CandyStorage db)
-		{
-			throw new NotImplementedException();
+            Console.ReadKey();
+            var exit = false;
+            while (!exit)
+            {
+                var userInput = MainMenu();
+                exit = TakeActions(db, userInput, candyOwners);
+            }
 		}
 
         internal static void TradeCandy(CandyStorage myStuff, List<CandyStorage> candyOwners)
@@ -107,5 +127,15 @@ namespace candy_market
                 Console.WriteLine($"{counter}. {candy.Name}, Flavor: {candy.Flavor}, Manufacturer {candy.Maker}, Received on {candy.Date}");
             }
         }
-	}
+
+        private static void EatCandy(CandyStorage db)
+
+		{   var candyList = db.Candies;
+            Random random = new Random();
+            int randNum = random.Next(0, candyList.Count);
+            candyList.RemoveAt(randNum);
+            Console.WriteLine(candyList.Count);
+            Console.ReadKey();
+        }
+	}       
 }

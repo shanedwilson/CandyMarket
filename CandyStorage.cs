@@ -4,10 +4,11 @@ using System.Linq;
 
 namespace candy_market.candyStorage
 {
-    internal class CandyStorage
+    public class CandyStorage
     {
         public string Owner { get; set; }
         public List<Candy> Candies { get; set; } = new List<Candy>();
+        public List<Candy> testCandies = new List<Candy>();
 
         public void addCandy(Candy newCandy)
         {
