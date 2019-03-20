@@ -71,8 +71,15 @@ namespace candy_market
 
 			db.addCandy(newCandy);
 			Console.WriteLine($"Now you own the candy {newCandy.Name}");
+            Console.WriteLine(db.Candies.Count);
             Console.ReadKey();
-		}
+            var exit = false;
+            while (!exit)
+            {
+                var userInput = MainMenu();
+                exit = TakeActions(db, userInput);
+            }
+        }
 
 		private static void EatCandy(CandyStorage db)
 		{
