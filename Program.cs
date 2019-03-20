@@ -130,24 +130,29 @@ namespace candy_market
             menu.AddMenuText("Enter a candy owner's name to trade with.");
             menu.AddMenuText("Press Esc to exit.");
             Console.Write(menu.GetFullMenu());
+
             var userOption = Console.ReadLine();
             var otherOwner = candyOwners.Where(candies => candies.Owner == userOption).ToList()[0];
             menu.AddMenuText("Select a candy number from the owner's list below.");
             writeCandies(otherOwner.Candies, menu);
             Console.Write(menu.GetFullMenu());
             var otherOption = Int32.Parse(Console.ReadLine());
+
             var menu2 = new View();
             menu2.AddMenuText("Select a candy number from your list below.");
             writeCandies(myStuff.Candies, menu2);
             Console.Write(menu2.GetFullMenu());
             var myOption = Int32.Parse(Console.ReadLine());
+
             Console.WriteLine($"You traded your {myStuff.Candies[myOption - 1].Name} for {otherOwner.Owner}'s {otherOwner.Candies[otherOption - 1].Name}.");
+
             otherOwner.addCandy(myStuff.Candies[myOption - 1]);
             myStuff.addCandy(otherOwner.Candies[otherOption - 1]);
             otherOwner.Candies.RemoveAt(otherOption - 1);
             myStuff.Candies.RemoveAt(myOption - 1);
             myStuff.orderCandy();
             otherOwner.orderCandy();
+
             Console.ReadLine();
             var exit = false;
             while (!exit)
