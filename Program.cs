@@ -77,15 +77,25 @@ namespace candy_market
 			throw new NotImplementedException();
 		}
 
-        internal static void TradeCandy(CandyStorage db, List<CandyStorage> candyOwners)
+        internal static void TradeCandy(CandyStorage myStuff, List<CandyStorage> candyOwners)
         {
             var menu = new View();
             menu.AddMenuOption("Enter a candy owner's name to trade with.");
             menu.AddMenuText("Press Esc to exit.");
             Console.Write(menu.GetFullMenu());
             var userOption = Console.ReadLine();
-            var otherOwner = candyOwners.Where(candies => candies.Owner == userOption).ToList();
-            writeCandies(otherOwner[0].Candies);
+            var otherOwner = candyOwners.Where(candies => candies.Owner == userOption).ToList()[0];
+            writeCandies(otherOwner.Candies);
+            var otherOption = Int32.Parse(Console.ReadLine());
+            writeCandies(myStuff.Candies);
+            var myOption = Int32.Parse(Console.ReadLine());
+            Console.WriteLine($"You traded your {myStuff.Candies[myOption - 1]} for {otherOwner.Owner}'s {otherOwner.Candies[otherOption - 1]}.");
+            otherOwner.addCandy(myStuff.Candies[myOption - 1]);
+            myStuff.addCandy(otherOwner.Candies[otherOption - 1]);
+            otherOwner.Candies.RemoveAt(otherOption - 1);
+            myStuff.Candies.RemoveAt(myOption - 1);
+            myStuff.orderCandy();
+            otherOwner.orderCandy();
         }
 
         internal static void writeCandies(List<Candy> candies)
