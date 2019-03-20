@@ -8,7 +8,6 @@ namespace candy_market.candyStorage
     {
         public string Owner { get; set; }
         public List<Candy> Candies { get; set; } = new List<Candy>();
-        public List<Candy> testCandies = new List<Candy>();
 
         public void addCandy(Candy newCandy)
         {
