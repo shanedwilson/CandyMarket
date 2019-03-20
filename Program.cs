@@ -13,11 +13,11 @@ namespace candy_market
             var candyOwners = new List<CandyStorage>();
 
             var shane = new CandyStorage { Owner = "Shane" };
-            var marshal = new CandyStorage { Owner = "Marshal" };
+            var marshall = new CandyStorage { Owner = "Marshall" };
             var rich = new CandyStorage { Owner = "Rich" };
 
             candyOwners.Add(shane);
-            candyOwners.Add(marshal);
+            candyOwners.Add(marshall);
             candyOwners.Add(rich);
 
             Candy snickers = new Candy("Snickers", "Chocolate", "Mars");
@@ -28,10 +28,10 @@ namespace candy_market
             shane.Candies.Add(snickers);
             shane.Candies.Add(starburst);
             shane.Candies.Add(snickers);
-            marshal.Candies.Add(starburst);
-            marshal.Candies.Add(whatchamacallit);
-            marshal.Candies.Add(whatchamacallit);
-            marshal.Candies.Add(snickers);
+            marshall.Candies.Add(starburst);
+            marshall.Candies.Add(whatchamacallit);
+            marshall.Candies.Add(whatchamacallit);
+            marshall.Candies.Add(snickers);
             rich.Candies.Add(starburst);
             rich.Candies.Add(starburst);
             rich.Candies.Add(starburst);
@@ -131,8 +131,8 @@ namespace candy_market
             menu.AddMenuText("Press Esc to exit.");
             Console.Write(menu.GetFullMenu());
 
-            var userOption = Console.ReadLine();
-            var otherOwner = candyOwners.Where(candies => candies.Owner == userOption).ToList()[0];
+            var userOption = Console.ReadLine().ToLower();
+            var otherOwner = candyOwners.Where(candies => candies.Owner.ToLower() == userOption).ToList()[0];
             menu.AddMenuText("Select a candy number from the owner's list below.");
             writeCandies(otherOwner.Candies, menu);
             Console.Write(menu.GetFullMenu());
@@ -164,7 +164,6 @@ namespace candy_market
 
         internal static void writeCandies(List<Candy> candies, View menu)
         {
-            var counter = 0;
             foreach(Candy candy in candies)
             {
                 menu.AddMenuOption($"{candy.Name}, Flavor: {candy.Flavor}, Manufacturer {candy.Maker}, Received on {candy.Date}");
@@ -182,3 +181,4 @@ namespace candy_market
         }
 	}       
 }
+
