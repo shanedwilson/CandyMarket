@@ -60,21 +60,12 @@ namespace candy_market
 
 		internal static void AddNewCandy(CandyStorage db)
 		{
-<<<<<<< HEAD
-			var newCandy = new Candy
-			(
-				"Whatchamacallit",
-                "Chocolate",
-                "Hershey"
-			);
-=======
             Console.WriteLine("Might you know the name of the candy you wish to add?");
             var candyName = Console.ReadLine().ToString();
             Console.WriteLine("And might you know the manufacturer's name of the candy you wish to add?");
             var candyManufacturer = Console.ReadLine().ToString();
             Console.WriteLine("And might you know the flavor profile of the candy you wish to add?");
             var candyFlavor = Console.ReadLine().ToString();
->>>>>>> master
 
             var newCandy = new Candy(candyName, candyManufacturer, candyFlavor);
 
@@ -90,18 +81,13 @@ namespace candy_market
         }
 
 		private static void EatCandy(CandyStorage db)
-<<<<<<< HEAD
+
 		{   var candyList = db.Candies;
             Random random = new Random();
             int randNum = random.Next(0, candyList.Count);
             candyList.RemoveAt(randNum);
+            Console.WriteLine(candyList.Count);
+            Console.ReadKey();
         }
     }
 }
-=======
-		{
-			throw new NotImplementedException();
-		}
-	}
-}
->>>>>>> master
