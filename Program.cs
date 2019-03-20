@@ -23,9 +23,19 @@ namespace candy_market
 			Console.BackgroundColor = ConsoleColor.White;
 			Console.ForegroundColor = ConsoleColor.Black;
 
-			var db = new CandyStorage();
+            Candy snickers = new Candy("Snickers", "Chocolate", "Mars");
+            Candy whatchamacallit = new Candy("Whatchamacallit", "Chocolate", "Hershey");
+            Candy starburst = new Candy("Starburst", "Fruity", "Mars");
 
-			return db;
+            var db = new CandyStorage();
+            db.Candies.Add(snickers);
+            db.Candies.Add(snickers);
+            db.Candies.Add(whatchamacallit);
+            db.Candies.Add(snickers);
+            db.Candies.Add(starburst);
+            db.Candies.Add(whatchamacallit);
+
+            return db;
 		}
 
 		internal static ConsoleKeyInfo MainMenu()
