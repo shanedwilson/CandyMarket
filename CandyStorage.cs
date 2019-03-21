@@ -9,6 +9,16 @@ namespace candy_market.candyStorage
         public string Owner { get; set; }
         public List<Candy> Candies { get; set; } = new List<Candy>();
 
+        public CandyStorage()
+        {
+
+        }
+
+        public CandyStorage(string name)
+        {
+            Owner = name.ToLower();
+        }
+
         public void addCandy(Candy newCandy)
         {
             Candies.Add(newCandy);

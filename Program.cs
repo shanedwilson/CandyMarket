@@ -12,9 +12,9 @@ namespace candy_market
 		{
             var candyOwners = new List<CandyStorage>();
 
-            var shane = new CandyStorage { Owner = "Shane" };
-            var marshall = new CandyStorage { Owner = "Marshall" };
-            var rich = new CandyStorage { Owner = "Rich" };
+            var shane = new CandyStorage("Shane");
+            var marshall = new CandyStorage("Marshall");
+            var rich = new CandyStorage("Rich");
 
             candyOwners.Add(shane);
             candyOwners.Add(marshall);
@@ -93,7 +93,7 @@ namespace candy_market
 			{
 				case "1": AddNewCandy(db, candyOwners);
 					break;
-				case "2": EatCandy(db);
+				case "2": EatCandy(db, candyOwners);
 					break;
                 case "3": TradeCandy(db, candyOwners);
                     break;
@@ -132,7 +132,8 @@ namespace candy_market
             Console.Write(menu.GetFullMenu());
 
             var userOption = Console.ReadLine().ToLower();
-            var otherOwner = candyOwners.Where(candies => candies.Owner.ToLower() == userOption).ToList()[0];
+            Console.WriteLine(userOption);
+            var otherOwner = candyOwners.Where(candies => candies.Owner == userOption).ToList()[0];
             menu.AddMenuText("Select a candy number from the owner's list below.");
             writeCandies(otherOwner.Candies, menu);
             Console.Write(menu.GetFullMenu());
@@ -143,8 +144,11 @@ namespace candy_market
             writeCandies(myStuff.Candies, menu2);
             Console.Write(menu2.GetFullMenu());
             var myOption = Int32.Parse(Console.ReadLine());
+            var otherNameArray = otherOwner.Owner.ToCharArray();
+            otherNameArray[0] = Char.ToUpper(otherNameArray[0]);
+            var otherName = string.Join("", otherNameArray);
 
-            Console.WriteLine($"You traded your {myStuff.Candies[myOption - 1].Name} for {otherOwner.Owner}'s {otherOwner.Candies[otherOption - 1].Name}.");
+            Console.WriteLine($"You traded your {myStuff.Candies[myOption - 1].Name} for {otherName}'s {otherOwner.Candies[otherOption - 1].Name}.");
 
             otherOwner.addCandy(myStuff.Candies[myOption - 1]);
             myStuff.addCandy(otherOwner.Candies[otherOption - 1]);
@@ -170,7 +174,7 @@ namespace candy_market
             }
         }
 
-        private static void EatCandy(CandyStorage db)
+        private static void EatCandy(CandyStorage db, List<CandyStorage> candyOwners)
 
 		{   var candyList = db.Candies;
             Random random = new Random();
