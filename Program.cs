@@ -72,7 +72,7 @@ namespace candy_market
 		{
 			View mainMenu = new View()
 					.AddMenuOption("Did you just get some new candy? Add it here.")
-					.AddMenuOption("Do you want to dhoose some candy to eat by flavor? Take it here.")
+					.AddMenuOption("Do you want to choose some candy to eat by flavor? Take it here.")
                     .AddMenuOption("Do you want to eat some candy from your collection? Take it here.")
                     .AddMenuOption("Do you want to trade some candy? Trade it here.")
 					.AddMenuText("Press Esc to exit.");
