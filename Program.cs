@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using candy_market.candyStorage;
-using candy_market;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace candy_market
 {
@@ -75,7 +72,7 @@ namespace candy_market
 		{
 			View mainMenu = new View()
 					.AddMenuOption("Did you just get some new candy? Add it here.")
-					.AddMenuOption("Do you want to eat some candy? Take it here.")
+					.AddMenuOption("Do you want to dhoose some candy to eat by flavor? Take it here.")
                     .AddMenuOption("Do you want to eat some candy from your collection? Take it here.")
                     .AddMenuOption("Do you want to trade some candy? Trade it here.")
 					.AddMenuText("Press Esc to exit.");
@@ -97,9 +94,10 @@ namespace candy_market
 			{
 				case "1": AddNewCandy(db, candyOwners);
 					break;
-				case "2": EatCandyByFlavor(db);
+				case "2": EatCandyByFlavor(db, candyOwners);
 					break;
-                case "3": EatCandy(db);
+                case "3": EatCandy(db, candyOwners);
+                    break;
                 case "4": TradeCandy(db, candyOwners);
                     break;
 				default: return true;
@@ -175,7 +173,7 @@ namespace candy_market
             }
         }
 
-		private static void EatCandyByFlavor(CandyStorage db)
+		private static void EatCandyByFlavor(CandyStorage db, List<CandyStorage> candyOwners)
 		{   var candyList = db.Candies;
             List<string> flavorList = new List<string>();
             List<Candy> candyByFlavor = new List<Candy>();
@@ -207,17 +205,20 @@ namespace candy_market
             {
                 Console.WriteLine(candy.Name);
             }
+
+            Console.WriteLine();
+            Console.WriteLine("Hit enter to continue.");
             Console.ReadKey();
 
             var exit = false;
             while (!exit)
             {
                 var userInput = MainMenu();
-                exit = TakeActions(db, userInput);
+                exit = TakeActions(db, userInput, candyOwners);
             }
         }
 
-        private static void EatCandy(CandyStorage db)
+        private static void EatCandy(CandyStorage db, List<CandyStorage> candyOwners)
 
         {
             var candyList = db.Candies;
@@ -251,13 +252,16 @@ namespace candy_market
             {
                 Console.WriteLine(candy.Name);
             }
+
+            Console.WriteLine();
+            Console.WriteLine("Hit enter to continue.");
             Console.ReadKey();
 
             var exit = false;
             while (!exit)
             {
                 var userInput = MainMenu();
-                exit = TakeActions(db, userInput);
+                exit = TakeActions(db, userInput, candyOwners);
             }
         }
 	}       
