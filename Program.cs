@@ -198,8 +198,10 @@ namespace candy_market
             var chosenFlavorNumber = Int32.Parse(Console.ReadLine());
 
             var filteredCandy = candyList.Where(c => c.Flavor.Contains(flavorList[chosenFlavorNumber -1])).ToList();
+            Console.WriteLine($"You ate {filteredCandy[0].Name}");
             candyList.Remove(filteredCandy[0]);
 
+            Console.WriteLine();
             Console.WriteLine("You have these candies left:");
             foreach(var candy in candyList)
             {
