@@ -16,5 +16,13 @@ namespace candy_market
             Maker = maker;
             Date = DateTime.Now;
         }
+
+        public Candy(string name, string flavor, string maker, DateTime date)
+        {
+            Name = name;
+            Flavor = flavor;
+            Maker = maker;
+            Date = date;
+        }
     }
 }
