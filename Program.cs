@@ -113,7 +113,7 @@ namespace candy_market
             Console.WriteLine("And might you know the flavor profile of the candy you wish to add?");
             var candyFlavor = Console.ReadLine().ToString();
 
-            var newCandy = new Candy(candyName, candyManufacturer, candyFlavor);
+            var newCandy = new Candy(candyName, candyFlavor, candyManufacturer );
 
 			db.addCandy(newCandy);
 			Console.WriteLine($"Now you own the candy {newCandy.Name}");
@@ -191,17 +191,17 @@ namespace candy_market
         }
 
 		private static void EatCandyByFlavor(CandyStorage db, List<CandyStorage> candyOwners)
-		{   var candyList = db.Candies;
-            List<string> flavorList = new List<string>();
+		{   var theCandy = db.Candies;
+            List<string> theFlavors = new List<string>();
             var flavorMenu = new View();
 
-            foreach(var candy in candyList)
+            foreach (var candy in theCandy)
             {
-                if(flavorList.Contains(candy.Flavor) == false)
-                flavorList.Add(candy.Flavor);
+                if(theFlavors.Contains(candy.Flavor) == false)
+                    theFlavors.Add(candy.Flavor);
             }
 
-            foreach (var flavor in flavorList)
+            foreach (var flavor in theFlavors)
                 flavorMenu.AddMenuOption(flavor);
 
             Console.Write(flavorMenu.GetFullMenu());
@@ -210,15 +210,24 @@ namespace candy_market
             Console.WriteLine("Please select the flavor you would like to eat.");
             var chosenFlavorNumber = Int32.Parse(Console.ReadLine());
 
-            var filteredCandy = candyList.Where(c => c.Flavor.Contains(flavorList[chosenFlavorNumber -1]))
-                .OrderBy(candy => candy.Date)
+            var filteredCandy = theCandy.Where(c => c.Flavor.Contains(theFlavors[chosenFlavorNumber - 1]))
                 .ToList();
-            Console.WriteLine($"You ate {filteredCandy[0].Name} that you acquired {filteredCandy[0].Date}.");
-            candyList.Remove(filteredCandy[0]);
+
+            Random random = new Random();
+            int randNum = random.Next(0, filteredCandy.Count);
+
+            var randomCandyName = filteredCandy[randNum].Name;
+
+            var eatenCandy = filteredCandy.Where(c => c.Name.Contains(randomCandyName))
+                .OrderBy(candy => candy.Date)
+                .First();
+
+            Console.WriteLine($"You ate {eatenCandy.Name} that you acquired {eatenCandy.Date}.");
+            theCandy.Remove(eatenCandy);
 
             Console.WriteLine();
             Console.WriteLine("You have these candies left:");
-            foreach(var candy in candyList)
+            foreach(var candy in theCandy)
             {
                 Console.WriteLine($"{candy.Name} acquired {candy.Date}.");
             }
@@ -238,17 +247,17 @@ namespace candy_market
         private static void EatCandy(CandyStorage db, List<CandyStorage> candyOwners)
 
         {
-            var candyList = db.Candies;
-            List<string> candyByAge = new List<string>();
+            var theCandy = db.Candies;
+            List<string> candyNames = new List<string>();
             var candyMenu = new View();
 
-            foreach (var candy in candyList)
+            foreach (var candy in theCandy)
             {
-                if (candyByAge.Contains(candy.Name) == false)
-                    candyByAge.Add(candy.Name);
+                if (candyNames.Contains(candy.Name) == false)
+                    candyNames.Add(candy.Name);
             }
 
-            foreach (var name in candyByAge)
+            foreach (var name in candyNames)
                 candyMenu.AddMenuOption(name);
 
             Console.Write(candyMenu.GetFullMenu());
@@ -257,14 +266,14 @@ namespace candy_market
             Console.WriteLine("Please select the candy you would like to eat.");
             var chosenNameNumber = Int32.Parse(Console.ReadLine());
 
-            var filteredCandy = candyList.Where(c => c.Name.Contains(candyByAge[chosenNameNumber - 1]))
+            var filteredCandy = theCandy.Where(c => c.Name.Contains(candyNames[chosenNameNumber - 1]))
                 .ToList();
 
             var oldestCandy = filteredCandy.OrderBy(c => c.Date).First();
-            candyList.Remove(oldestCandy);
+            theCandy.Remove(oldestCandy);
 
             Console.WriteLine("You have these candies left:");
-            foreach (var candy in candyList)
+            foreach (var candy in theCandy)
             {
                 Console.WriteLine($"{candy.Name} acquired {candy.Date}.");
             }
