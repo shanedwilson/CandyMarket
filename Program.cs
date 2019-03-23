@@ -208,7 +208,8 @@ namespace candy_market
 
             Console.WriteLine();
             Console.WriteLine("Please select the flavor you would like to eat.");
-            var chosenFlavorNumber = Int32.Parse(Console.ReadLine());
+            var flavorMenuInput = Console.ReadKey();
+            var chosenFlavorNumber = int.Parse(flavorMenuInput.KeyChar.ToString());
 
             var filteredCandy = theCandy.Where(c => c.Flavor.Contains(theFlavors[chosenFlavorNumber - 1]))
                 .ToList();
@@ -222,26 +223,29 @@ namespace candy_market
                 .OrderBy(candy => candy.Date)
                 .First();
 
+            Console.WriteLine();
             Console.WriteLine($"You ate {eatenCandy.Name} that you acquired {eatenCandy.Date}.");
-            theCandy.Remove(eatenCandy);
+            //theCandy.Remove(eatenCandy);
+            RemoveCandy(eatenCandy, db, candyOwners);
 
-            Console.WriteLine();
-            Console.WriteLine("You have these candies left:");
-            foreach(var candy in theCandy)
-            {
-                Console.WriteLine($"{candy.Name} acquired {candy.Date}.");
-            }
 
-            Console.WriteLine();
-            Console.WriteLine("Hit enter to continue.");
-            Console.ReadKey();
+            //Console.WriteLine();
+            //Console.WriteLine("You have these candies left:");
+            //foreach(var candy in theCandy)
+            //{
+            //    Console.WriteLine($"{candy.Name} acquired {candy.Date}.");
+            //}
 
-            var exit = false;
-            while (!exit)
-            {
-                var userInput = MainMenu();
-                exit = TakeActions(db, userInput, candyOwners);
-            }
+            //Console.WriteLine();
+            //Console.WriteLine("Hit enter to continue.");
+            //Console.ReadKey();
+
+            //var exit = false;
+            //while (!exit)
+            //{
+            //    var userInput = MainMenu();
+            //    exit = TakeActions(db, userInput, candyOwners);
+            //}
         }
 
         private static void EatCandy(CandyStorage db, List<CandyStorage> candyOwners)
@@ -264,18 +268,48 @@ namespace candy_market
 
             Console.WriteLine();
             Console.WriteLine("Please select the candy you would like to eat.");
-            var chosenNameNumber = Int32.Parse(Console.ReadLine());
+
+            var flavorMenuInput = Console.ReadKey();
+            var chosenNameNumber = int.Parse(flavorMenuInput.KeyChar.ToString());
 
             var filteredCandy = theCandy.Where(c => c.Name.Contains(candyNames[chosenNameNumber - 1]))
                 .ToList();
 
             var oldestCandy = filteredCandy.OrderBy(c => c.Date).First();
-            theCandy.Remove(oldestCandy);
+            RemoveCandy(oldestCandy, db, candyOwners);
 
+            //Console.WriteLine();
+            //Console.WriteLine("You have these candies left:");
+
+            //foreach (var candy in theCandy)
+            //{
+            //    Console.WriteLine($"{candy.Name} acquired {candy.Date}.");
+            //}
+
+            //Console.WriteLine();
+            //Console.WriteLine("Hit enter to continue.");
+            //Console.ReadKey();
+
+            //var exit = false;
+            //while (!exit)
+            //{
+            //    var userInput = MainMenu();
+            //    exit = TakeActions(db, userInput, candyOwners);
+            //}
+        }
+
+        internal static void RemoveCandy(Candy candy, CandyStorage db, List<CandyStorage> candyOwners)
+        {
+            var theCandy = db.Candies;
+
+            theCandy.Remove(candy);
+
+            Console.WriteLine();
             Console.WriteLine("You have these candies left:");
-            foreach (var candy in theCandy)
+
+            foreach (var c in theCandy)
             {
-                Console.WriteLine($"{candy.Name} acquired {candy.Date}.");
+                Console.WriteLine($"{c.Name} acquired {c.Date}.");
             }
 
             Console.WriteLine();
@@ -288,6 +322,8 @@ namespace candy_market
                 var userInput = MainMenu();
                 exit = TakeActions(db, userInput, candyOwners);
             }
+
+
         }
-	}       
+    }       
 }
